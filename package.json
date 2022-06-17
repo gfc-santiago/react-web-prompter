@@ -1,0 +1,22 @@
+{
+  "name": "react-web-prompter",
+  "version": "1.0.0",
+  "description": "React App message prompter using web-sockets for control",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd ./client && npm start",
+    "server": "cd ./server && npm start",
+    "client": "cd ./client && npm start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gfc-santiago/react-web-prompter.git"
+  },
+  "author": "gfc-santiago",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gfc-santiago/react-web-prompter/issues"
+  },
+  "homepage": "https://github.com/gfc-santiago/react-web-prompter#readme"
+}
