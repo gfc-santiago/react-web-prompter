@@ -1,17 +1,19 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 let message = {};
 
-router.get('/', (req, res) => {
+router.get("/", (req, res) => {
   res.send({ message }).status(200);
 });
 
-router.post('/send', (req, res) => {
+router.post("/send", (req, res) => {
   const { io } = req.context;
-  message = req.body;
-  io.emit('receive', message);
-  res.send({ status: 'sent', message }).status(200);
+  const { type, content } = req.body;
+  if (type) {
+    io.emit("receive", { type, content });
+  }
+  res.send({ status: "sent", message }).status(200);
 });
 
 module.exports = router;
