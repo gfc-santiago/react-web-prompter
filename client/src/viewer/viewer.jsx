@@ -1,29 +1,20 @@
-/* eslint-disable react/prop-types */
 import React, { useEffect } from "react";
-import useSocket, { SocketProvider } from "../components/sockets/use-socket";
+import useSocket from "../components/sockets/use-socket";
 import { Box } from "@mui/material";
-const SOCKET_URL = "http://localhost:5000";
 
-function View() {
-  return (
-    <SocketProvider url={SOCKET_URL}>
-      <Messages />
-    </SocketProvider>
-  );
-}
-
-function Messages() {
+export default function View() {
   const [message, setMessage] = React.useState(null);
   const socket = useSocket();
 
   const onReceive = (m) => {
+    console.log("received");
     setMessage(m);
   };
 
   useEffect(() => {
-    socket?.on("receive", onReceive);
+    socket?.on?.("receive", onReceive);
     return () => {
-      socket?.removeListener("receive", onReceive);
+      socket?.removeListener?.("receive", onReceive);
     };
   }, [socket]);
 
@@ -50,5 +41,3 @@ function Messages() {
     </div>
   );
 }
-
-export default View;

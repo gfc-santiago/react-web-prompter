@@ -1,42 +1,49 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react-refresh/only-export-components */
+import React, { useState } from "react";
 import { io } from "socket.io-client";
+import useConfig from "../config/use-config";
 
 const SocketContext = React.createContext({ socket: null });
+localStorage.debug = "*";
 
-// eslint-disable-next-line react/prop-types
-export function SocketProvider({ url, children }) {
-  const [socket, setSocket] = React.useState(null);
+export function SocketProvider({ children }) {
+  const [socket, setSocket] = useState(null);
+  const { host } = useConfig();
 
   React.useEffect(() => {
-    if (!socket)
-      setSocket(
-        io(url, {
-          transports: ["websocket", "polling", "flashsocket"],
-        })
-      );
+    setSocket((prev) => {
+      if (prev) prev?.close();
+      const socket = io(host, {
+        transports: ["websocket", "polling"],
+      });
+
+      socket.on("error", (err) => {
+        console.log(`error due to ${err.message}`);
+      });
+      socket.on("connect_error", (err) => {
+        console.log(`connect_error due to ${err.message}`);
+      });
+      socket.send = (payload) => {
+        socket.emit("receive", payload);
+      };
+      return socket;
+    });
 
     return () => {
-      socket?.close();
-      setSocket(null);
+      setSocket((prev) => {
+        prev?.close();
+        return null;
+      });
     };
-  }, [url]);
-
-  const value = React.useMemo(() => socket, [socket]);
+  }, [host, setSocket]);
 
   return (
-    <SocketContext.Provider value={value}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );
-}
-
-export function withSocket(url, Component) {
-  const SocketComponent = (props) => (
-    <SocketProvider url={url}>
-      <Component {...props} />
-    </SocketProvider>
-  );
-  return SocketComponent;
 }
 
 export default function useSocket() {
-  return React.useContext(SocketContext);
+  const context = React.useContext(SocketContext);
+  return context;
 }

@@ -5,9 +5,12 @@ module.exports = function createSocketServer(server) {
     cors: {
       origin: "http://localhost:3000",
       methods: ["GET", "POST"],
-      credentials: true,
     },
   });
-  io.on("receive", require("./emitters/receive"));
+  io.on("connect", (sock) => {
+    sock.on("receive", (payload) => {
+      io.emit("receive", payload);
+    });
+  });
   return io;
 };

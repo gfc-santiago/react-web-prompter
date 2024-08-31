@@ -4,9 +4,9 @@
   "description": "React App message prompter using web-sockets for control",
   "main": "index.js",
   "scripts": {
-    "start": "cd ./client && npm start",
+    "start": "concurrently \"npm run client\" \"npm run server\"",
     "server": "cd ./server && npm start",
-    "client": "cd ./client && npm start",
+    "client": "cd ./client && npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/gfc-santiago/react-web-prompter/issues"
   },
-  "homepage": "https://github.com/gfc-santiago/react-web-prompter#readme"
+  "homepage": "https://github.com/gfc-santiago/react-web-prompter#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

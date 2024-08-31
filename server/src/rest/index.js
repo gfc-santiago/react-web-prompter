@@ -11,6 +11,7 @@ router.post("/send", (req, res) => {
   const { io } = req.context;
   const { type, content } = req.body;
   if (type) {
+    console.log({ type, content });
     io.emit("receive", { type, content });
   }
   res.send({ status: "sent", message }).status(200);

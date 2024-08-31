@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import useSocket, { withSocket } from "../components/sockets/use-socket";
+import useSocket from "../components/sockets/use-socket";
 import {
   Box,
   Button,
@@ -12,8 +12,6 @@ import {
 } from "@mui/material";
 import songs from "./songs";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
-const SOCKET_URL = "http://localhost:5000";
 
 function LyricsList() {
   const socket = useSocket();
@@ -33,11 +31,11 @@ function LyricsList() {
   }, [socket]);
 
   const handleClick = (page) => () => {
-    axios.post(`${SOCKET_URL}/send`, { type: "text", content: page });
+    socket?.send({ type: "text", content: page });
   };
 
   const handleTitleClick = () => {
-    axios.post(`${SOCKET_URL}/send`, {
+    socket?.send({
       type: "title",
       content: { title, author },
     });
@@ -123,5 +121,4 @@ function LyricsList() {
   );
 }
 
-const Lyrics = withSocket(SOCKET_URL, LyricsList);
-export default Lyrics;
+export default LyricsList;
