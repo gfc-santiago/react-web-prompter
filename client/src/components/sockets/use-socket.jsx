@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { io } from "socket.io-client";
 import useConfig from "../config/use-config";
 
-const SocketContext = React.createContext({ socket: null });
+const SocketContext = React.createContext(null);
 localStorage.debug = "*";
 
 export function SocketProvider({ children }) {

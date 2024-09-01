@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import useSocket from "../components/sockets/use-socket";
 import { Box, Typography } from "@mui/material";
 
-export default function View() {
+export default function RightView() {
   const [message, setMessage] = React.useState(null);
   const socket = useSocket();
 
@@ -22,7 +22,7 @@ export default function View() {
 
   if (type === "title") {
     return (
-      <div className="view">
+      <div className="view right">
         <div className="lyrics">
           <Box>{content.title}</Box>
           <Box fontSize="0.5em">{content.author}</Box>
@@ -32,7 +32,7 @@ export default function View() {
   }
 
   return (
-    <div className="view">
+    <div className="view right">
       {content?.length > 0 && (
         <div className="lyrics">
           {content?.map?.((text) => <Text key={text}>{text}</Text>) ?? message}
